@@ -1,21 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue May  7 18:23:20 2019
-
-@author: areed145
-"""
-
-import dns
-import ast
 import paho.mqtt.client as mqtt
 from datetime import datetime
 import json
-import os
 import asyncio
 import websockets
 import numpy as np
-import sys
 import time
 
 
@@ -44,7 +32,7 @@ async def wx_on_message(ws):
                     "kk6gpv_bus/wx/precip", json.dumps(msg), retain=True
                 )
                 print(msg)
-            except:
+            except Exception:
                 pass
 
         if message["type"] == "evt_strike":
@@ -58,7 +46,7 @@ async def wx_on_message(ws):
                     "kk6gpv_bus/wx/strike", json.dumps(msg), retain=True
                 )
                 print(msg)
-            except:
+            except Exception:
                 pass
 
         if message["type"] == "device_status":
@@ -70,7 +58,7 @@ async def wx_on_message(ws):
                     "kk6gpv_bus/wx/status", json.dumps(msg), retain=True
                 )
                 print(msg)
-            except:
+            except Exception:
                 pass
 
         if message["type"] == "obs_air":
@@ -108,7 +96,7 @@ async def wx_on_message(ws):
                     "kk6gpv_bus/wx/air", json.dumps(msg), retain=True
                 )
                 print(msg)
-            except:
+            except Exception:
                 pass
 
         if message["type"] == "obs_sky":
@@ -131,7 +119,7 @@ async def wx_on_message(ws):
                     "kk6gpv_bus/wx/sky", json.dumps(msg), retain=True
                 )
                 print(msg)
-            except:
+            except Exception:
                 pass
 
         if message["type"] == "rapid_wind":
@@ -145,18 +133,19 @@ async def wx_on_message(ws):
                     "kk6gpv_bus/wx/wind", json.dumps(msg), retain=True
                 )
                 print(msg)
-            except:
+            except Exception:
                 pass
 
 
 async def weatherstation():
     while True:
         try:
-            uri = "wss://ws.weatherflow.com/swd/data?api_key=20c70eae-e62f-4d3b-b3a4-8586e90f3ac8"
+            uri = "wss://ws.weatherflow.com/swd/data?\
+                api_key=20c70eae-e62f-4d3b-b3a4-8586e90f3ac8"
             async with websockets.connect(uri) as ws:
                 await wx_connect(ws)
                 await wx_on_message(ws)
-        except:
+        except Exception:
             print("disconnected...")
             time.sleep(5)
 
@@ -166,6 +155,6 @@ while True:
         client = mqtt.Client(client_id="", clean_session=True, userdata=None)
         client.connect("broker.mqttdashboard.com", 1883)
         asyncio.get_event_loop().run_until_complete(weatherstation())
-    except:
+    except Exception:
         print("no connection...")
         time.sleep(5)
