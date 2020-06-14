@@ -140,8 +140,10 @@ async def wx_on_message(ws):
 async def weatherstation():
     while True:
         try:
-            uri = "wss://ws.weatherflow.com/swd/data?\
-                api_key=20c70eae-e62f-4d3b-b3a4-8586e90f3ac8"
+            uri = (
+                "wss://ws.weatherflow.com/swd/data?"
+                + "api_key=20c70eae-e62f-4d3b-b3a4-8586e90f3ac8"
+            )
             async with websockets.connect(uri) as ws:
                 await wx_connect(ws)
                 await wx_on_message(ws)
@@ -152,7 +154,7 @@ async def weatherstation():
 
 while True:
     try:
-        client = mqtt.Client(client_id="", clean_session=True, userdata=None)
+        client = mqtt.Client(clean_session=False)
         client.connect("broker.mqttdashboard.com", 1883)
         asyncio.get_event_loop().run_until_complete(weatherstation())
     except Exception:
