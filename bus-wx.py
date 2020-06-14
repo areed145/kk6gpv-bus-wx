@@ -154,7 +154,7 @@ async def weatherstation():
 
 while True:
     try:
-        client = mqtt.Client(clean_session=False)
+        client = mqtt.Client(client_id="kk6gpv-bus-wx", clean_session=False)
         client.connect("broker.mqttdashboard.com", 1883)
         asyncio.get_event_loop().run_until_complete(weatherstation())
     except Exception:
