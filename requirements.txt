@@ -1,4 +1,4 @@
-aprslib==0.6.46
+aprslib==0.6.47
 asyncio
 astroid==2.2.5
 certifi==2019.9.11
