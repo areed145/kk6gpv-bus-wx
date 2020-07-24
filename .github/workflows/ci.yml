@@ -58,4 +58,4 @@ jobs:
           personalAccessToken: ${{ secrets.DIGITALOCEAN_TOKEN }}
           clusterName: k8s-1-16-2-do-3-sfo2-1580268289343
       - name: Apply new image
-        run: kubectl apply -f kube.yml
+        run: kubectl replace -f kube.yml --force
