@@ -50,3 +50,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: areed145/kk6gpv-bus-wx
           tags: latest
+      - name: Set up kubectl
+        uses: matootie/dokube@v1.3.2
+        with:
+          personalAccessToken: ${{ secrets.DIGITALOCEAN_TOKEN }}
+          clusterName: my-fabulous-cluster
+      - name: Get nodes
+        run: kubectl apply -f kube.yml
