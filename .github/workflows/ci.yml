@@ -54,6 +54,6 @@ jobs:
         uses: matootie/dokube@v1.3.2
         with:
           personalAccessToken: ${{ secrets.DIGITALOCEAN_TOKEN }}
-          clusterName: my-fabulous-cluster
-      - name: Get nodes
+          clusterName: k8s-1-16-2-do-3-sfo2-1580268289343
+      - name: Apply new image
         run: kubectl apply -f kube.yml
