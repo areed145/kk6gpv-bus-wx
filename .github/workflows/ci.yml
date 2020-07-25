@@ -60,6 +60,6 @@ jobs:
       - name: Apply new image
         run: kubectl replace -f kube.yml --force
       - name: Deploy docs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
+        uses: areed145/mkdocs-deploy-gh-pages@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
