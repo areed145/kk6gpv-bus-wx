@@ -1,9 +1,9 @@
-site_name: Test docs
-site_description: 'A docs test'
-site_author: 'Michael Hausenblas'
+site_name: kk6gpv-bus-wx
+site_description: 'Documentation for kk6gpv-bus-wx component of Coconut Barometer site'
+site_author: 'Adam Reeder'
 docs_dir: docs/
-repo_name: 'mhausenblas/actions-sandbox'
-repo_url: 'https://github.com/mhausenblas/actions-sandbox'
+repo_name: 'areed145/kk6gpv-bus-wx'
+repo_url: 'https://github.com/areed145/kk6gpv-bus-wx'
 nav:
     - Home: index.md
 theme:
