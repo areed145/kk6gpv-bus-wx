@@ -39,4 +39,4 @@ NOW!
 
 Not gonna work, is it?
 
-::: kk6gpv-bus-wx.bus-wx
+::: kk6gpv-bus-wx.test.MyClass
