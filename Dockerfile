@@ -12,4 +12,4 @@ RUN pip install --upgrade pip && \
 
 # EXPOSE 80
 
-CMD ["python", "bus-wx.py"]
+CMD ["python", "src/kk6gpv-bus-wx/bus-wx.py"]
