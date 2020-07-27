@@ -14,5 +14,10 @@ theme:
   plugins:
     - search
     - mkdocstrings:
+        handlers:
+            python:
+                setup_commands:
+                    - import sys
+                    - sys.path.append("src/kk6gpv-bus-wx")
         watch:
             - src/kk6gpv-bus-wx
