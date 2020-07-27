@@ -8,6 +8,7 @@ import time
 
 
 async def wx_connect(ws):
+    """Test"""
     await ws.send(
         '{"type":"listen_start", "device_id":54051, "id": "2098388936"}'
     )
