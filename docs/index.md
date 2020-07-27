@@ -1,1 +1,1 @@
-::: kk6gpv-bus-wx.bus-wx
+::: kk6gpv-bus-wx.bus_wx
