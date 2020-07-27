@@ -12,5 +12,5 @@ theme:
     text: Ubuntu
     code: Ubuntu Mono
   plugins:
-  - search
-  - mkdocstrings
+    - search
+    - mkdocstrings:
