@@ -1,4 +1,4 @@
-name: kubectl replace
+name: Replace kubectl
 
 on:
   schedule:

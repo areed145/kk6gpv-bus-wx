@@ -1,4 +1,4 @@
-name: MkDocs Build
+name: Build MkDocs
 
 on:
   schedule:
