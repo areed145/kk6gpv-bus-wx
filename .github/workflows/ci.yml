@@ -58,7 +58,3 @@ jobs:
           clusterName: k8s-1-16-2-do-3-sfo2-1580268289343
       - name: Apply new image
         run: kubectl replace -f kube.yml --force
-      - name: Deploy docs
-        uses: areed145/mkdocs-deploy-gh-pages@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
