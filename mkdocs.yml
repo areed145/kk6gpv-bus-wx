@@ -21,4 +21,4 @@ plugins:
           rendering:
             show_source: true
       watch:
-        - src/kk6gpv_bus_wx
+        - src/bus_wx
