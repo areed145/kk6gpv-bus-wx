@@ -18,19 +18,9 @@ jobs:
           python-version: "3.6"
       - name: Set remote
         run: |
-          if [ -n "${GITHUB_TOKEN}" ]; then
-              print_info "setup with GITHUB_TOKEN"
-              remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          fi
-
-          if ! git config --get user.name; then
-              git config --global user.name "${GITHUB_ACTOR}"
-          fi
-
-          if ! git config --get user.email; then
-              git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          fi
-
+          remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote rm origin
           git remote add origin "${remote_repo}"
         env:
@@ -45,7 +35,7 @@ jobs:
           pip install mkdocstrings
       - name: Deploy docs
         run: |
-          mkdocs gh-deploy --clean
+          mkdocs gh-deploy --force
       # - name: Deploy docs
       #   uses: areed145/mkdocs-deploy-gh-pages@master
       #   env:
