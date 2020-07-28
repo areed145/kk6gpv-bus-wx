@@ -1,25 +1,24 @@
 site_name: kk6gpv-bus-wx
-site_description: 'Documentation for kk6gpv-bus-wx component of Coconut Barometer site'
-site_author: 'Adam Reeder'
+site_description: "Documentation for kk6gpv-bus-wx component of Coconut Barometer site"
+site_author: "Adam Reeder"
+site_url: "https://areed145.github.io/kk6gpv-bus-wx"
 docs_dir: docs/
-repo_name: 'areed145/kk6gpv-bus-wx'
-repo_url: 'https://github.com/areed145/kk6gpv-bus-wx'
+repo_name: "areed145/kk6gpv-bus-wx"
+repo_url: "https://github.com/areed145/kk6gpv-bus-wx"
 nav:
-    - Home: index.md
+  - Reference: index.md
 theme:
-  name: 'material'
+  name: "material"
   font:
     text: Ubuntu
     code: Ubuntu Mono
-  plugins:
-    - search
-    - mkdocstrings:
-        handlers:
-            python:
-                rendering:
-                    show_source: true
-                setup_commands:
-                    - import sys
-                    - sys.path.append("src/kk6gpv-bus-wx")
-        watch:
-            - src/kk6gpv-bus-wx
+plugins:
+  - search:
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          rendering:
+            show_source: true
+      watch:
+        - src/kk6gpv_bus_wx
