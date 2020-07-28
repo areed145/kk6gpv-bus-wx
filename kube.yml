@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${{ env.GITHUB_REPOSITORY }}
+  name: ${{ github.repository }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: ${{ env.GITHUB_REPOSITORY }}
+      name: ${{ github.repository }}
   template:
     metadata:
       labels:
-        name: ${{ env.GITHUB_REPOSITORY }}
+        name: ${{ github.repository }}
     spec:
       containers:
         - name: application
-          image: areed145/${{ env.GITHUB_REPOSITORY }}:latest
+          image: areed145/${{ github.repository }}:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
