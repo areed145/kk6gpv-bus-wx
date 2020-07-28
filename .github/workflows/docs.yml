@@ -17,6 +17,13 @@ jobs:
         with:
           python-version: "3.6"
       - name: Deploy docs
-        uses: areed145/mkdocs-deploy-gh-pages@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install mkdocs
+          pip install mkdocs-material
+          pip install mkdocstrings
+          mkdocs gh-deploy --clean
+      # - name: Deploy docs
+      #   uses: areed145/mkdocs-deploy-gh-pages@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
