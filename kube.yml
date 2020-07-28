@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${{ github.repository }}
+  name: kk6gpv-bus-wx
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: ${{ github.repository }}
+      name: kk6gpv-bus-wx
   template:
     metadata:
       labels:
-        name: ${{ github.repository }}
+        name: kk6gpv-bus-wx
     spec:
       containers:
         - name: application
-          image: areed145/${{ github.repository }}:latest
+          image: areed145/kk6gpv-bus-wx:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
