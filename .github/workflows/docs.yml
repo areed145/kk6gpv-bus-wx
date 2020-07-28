@@ -16,6 +16,25 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.6"
+      - name: Set remote
+        run: |
+          if [ -n "${GITHUB_TOKEN}" ]; then
+              print_info "setup with GITHUB_TOKEN"
+              remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          fi
+
+          if ! git config --get user.name; then
+              git config --global user.name "${GITHUB_ACTOR}"
+          fi
+
+          if ! git config --get user.email; then
+              git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          fi
+
+          git remote rm origin
+          git remote add origin "${remote_repo}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
