@@ -9,4 +9,4 @@ COPY . /bus_wx
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-CMD ["python", "src/bus_wx/bus_wx.py"]
+CMD ["python", "bus_wx/bus_wx.py"]

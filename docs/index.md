@@ -1,3 +1,3 @@
 # Documentation for `BusWx`
 
-::: src.bus_wx.bus_wx.BusWx
+::: bus_wx.bus_wx.BusWx

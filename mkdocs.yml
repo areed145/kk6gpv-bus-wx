@@ -21,4 +21,4 @@ plugins:
           rendering:
             show_source: true
       watch:
-        - src/bus_wx
+        - bus_wx
