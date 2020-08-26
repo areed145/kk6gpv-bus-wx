@@ -10,14 +10,14 @@ spec:
       image: areed145/kk6gpv-bus-wx:latest
       imagePullPolicy: Always
       ports:
-        - containerPort: 80
-          hostPort: 80
+        - containerPort: 5000
       livenessProbe:
-        tcpSocket:
-          port: 80
-        initialDelaySeconds: 60
-        periodSeconds: 10
-        failureThreshold: 6
+        exec:
+          command:
+            - cat
+            - /healthy
+        initialDelaySeconds: 10
+        periodSeconds: 5
       resources:
         requests:
           memory: "64Mi"

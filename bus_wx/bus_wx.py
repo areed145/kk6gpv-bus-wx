@@ -208,11 +208,18 @@ class BusWx:
 
     def __init__(self):
         """Initialize class"""
-        self.fail_count = 0
+        self.fail_init()
         self.fail_max = 30
         self.wws = WxWebSocket()
         self.loop = asyncio.get_event_loop()
         self.run()
+
+    def fail_init(self):
+        """"""
+        self.fail_count = 0
+        with open("/healthy", "w") as fp:
+            fp.write("healthy")
+            pass
 
     def fail_check(self):
         """Check for failure count"""
@@ -222,6 +229,7 @@ class BusWx:
         )
         if self.fail_count > self.fail_max - 1:
             logging.error("exiting...")
+            os.remove("/healthy")
             sys.exit(1)
 
     def run(self):
@@ -229,7 +237,7 @@ class BusWx:
         while True:
             try:
                 self.loop.run_until_complete(self.__async__run())
-                self.fail_count = 0
+                self.fail_init()
             except Exception:
                 time.sleep(2)
                 self.fail_check()
