@@ -205,7 +205,7 @@ class BusWx:
                 )
                 self.fail_count = 0
             except Exception:
-                time.sleep(1)
+                time.sleep(2)
                 self.fail_check()
 
 
