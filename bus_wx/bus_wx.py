@@ -20,7 +20,7 @@ class BusWx:
         self.rapid_id = rapid_id
         self.api_key = api_key
         self.fail_count = 0
-        self.fail_max = 10
+        self.fail_max = 30
         self.run()
 
     async def wx_connect(self, ws):
@@ -205,7 +205,7 @@ class BusWx:
                 )
                 self.fail_count = 0
             except Exception:
-                time.sleep(5)
+                time.sleep(1)
                 self.fail_check()
 
 
