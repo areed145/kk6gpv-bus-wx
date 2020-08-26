@@ -4,33 +4,24 @@ kind: Pod
 metadata:
   name: kk6gpv-bus-wx
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      name: kk6gpv-bus-wx
-  template:
-    metadata:
-      labels:
-        name: kk6gpv-bus-wx
-    spec:
-      restartPolicy: Never
-      containers:
-        - name: application
-          image: areed145/kk6gpv-bus-wx:latest
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 4000
-          livenessProbe:
-            httpGet:
-              path: /ping
-              port: 80
-              scheme: HTTP
-            initialDelaySeconds: 15
-            timeoutSeconds: 1
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+  restartPolicy: Never
+  containers:
+    - name: application
+      image: areed145/kk6gpv-bus-wx:latest
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 4000
+      livenessProbe:
+        httpGet:
+          path: /ping
+          port: 80
+          scheme: HTTP
+        initialDelaySeconds: 15
+        timeoutSeconds: 1
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
