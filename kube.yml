@@ -4,7 +4,7 @@ kind: Pod
 metadata:
   name: kk6gpv-bus-wx
 spec:
-  restartPolicy: Never
+  restartPolicy: OnFailure
   containers:
     - name: application
       image: areed145/kk6gpv-bus-wx:latest
