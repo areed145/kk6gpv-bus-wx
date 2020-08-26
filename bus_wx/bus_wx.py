@@ -19,7 +19,7 @@ class WxWebSocket:
         self.station_id = "2098388936"
         self.device_id = "54051"
         self.rapid_id = "54053"
-        self.api_key = "20c70eae-e62f-4d3b-b3a4-8586e90f3ac8"
+        self.api_key = "32f5918d-0c17-4b52-ac4e-6a6cf5dd3be0"  # "20c70eae-e62f-4d3b-b3a4-8586e90f3ac8"
         self.uri = (
             "wss://ws.weatherflow.com/swd/data?" + "api_key=" + self.api_key
         )
@@ -29,13 +29,13 @@ class WxWebSocket:
         )
         self.bus_client.connect("broker.mqttdashboard.com", 1883)
 
-        self._conn = connect(self.uri)
-        self.websocket = await self._conn.__aenter__()
+        self.con = connect(self.uri)
+        self.websocket = await self.con.__aenter__()
         return self
 
     async def __aexit__(self, *args, **kwargs):
         """Exits weather station connection"""
-        await self._conn.__aexit__(*args, **kwargs)
+        await self.con.__aexit__(*args, **kwargs)
 
     async def wx_connect(self):
         """Connects to weatherstation"""
