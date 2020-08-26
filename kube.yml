@@ -10,7 +10,8 @@ spec:
       image: areed145/kk6gpv-bus-wx:latest
       imagePullPolicy: Always
       ports:
-        - containerPort: 8080
+        - containerPort: 80
+          hostPort: 80
       livenessProbe:
         tcpSocket:
           port: 80
