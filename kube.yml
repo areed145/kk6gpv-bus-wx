@@ -13,7 +13,7 @@ spec:
         - containerPort: 8080
       livenessProbe:
         tcpSocket:
-          port: 8080
+          port: 80
         initialDelaySeconds: 60
         periodSeconds: 10
         failureThreshold: 6
