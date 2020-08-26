@@ -6,11 +6,9 @@ import websockets
 import numpy as np
 import time
 import sys
+import logging
 
-# import logging
-# logger = logging.getLogger("websockets")
-# logger.setLevel(logging.INFO)
-# logger.addHandler(logging.StreamHandler())
+logging.basicConfig(level=logging.INFO)
 
 
 class BusWx:
@@ -61,7 +59,7 @@ class BusWx:
                     self.client.publish(
                         "kk6gpv_bus/wx/precip", json.dumps(msg), retain=True
                     )
-                    print(msg)
+                    logging.info(msg)
                 except Exception:
                     pass
 
@@ -75,7 +73,7 @@ class BusWx:
                     self.client.publish(
                         "kk6gpv_bus/wx/strike", json.dumps(msg), retain=True
                     )
-                    print(msg)
+                    logging.info(msg)
                 except Exception:
                     pass
 
@@ -87,7 +85,7 @@ class BusWx:
                     self.client.publish(
                         "kk6gpv_bus/wx/status", json.dumps(msg), retain=True
                     )
-                    print(msg)
+                    logging.info(msg)
                 except Exception:
                     pass
 
@@ -134,7 +132,7 @@ class BusWx:
                     self.client.publish(
                         "kk6gpv_bus/wx/air", json.dumps(msg), retain=True
                     )
-                    print(msg)
+                    logging.info(msg)
                 except Exception:
                     pass
 
@@ -159,7 +157,7 @@ class BusWx:
                     self.client.publish(
                         "kk6gpv_bus/wx/sky", json.dumps(msg), retain=True
                     )
-                    print(msg)
+                    logging.info(msg)
                 except Exception:
                     pass
 
@@ -173,7 +171,7 @@ class BusWx:
                     self.client.publish(
                         "kk6gpv_bus/wx/wind", json.dumps(msg), retain=True
                     )
-                    print(msg)
+                    logging.info(msg)
                 except Exception:
                     pass
 
@@ -186,9 +184,9 @@ class BusWx:
 
     def fail_check(self):
         self.fail_count += 1
-        print("couldn't connect", self.fail_count, "time(s)")
+        logging.warning("couldn't connect", str(self.fail_count), "time(s)")
         if self.fail_count > 10:
-            print("exiting...")
+            logging.error("exiting...")
             sys.exit(1)
 
     def run(self):
