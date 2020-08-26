@@ -13,7 +13,7 @@ spec:
         - containerPort: 4000
       livenessProbe:
         tcpSocket:
-          port: 8080
+          port: 4000
         initialDelaySeconds: 15
         periodSeconds: 20
       resources:
