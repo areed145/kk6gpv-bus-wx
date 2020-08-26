@@ -10,10 +10,10 @@ spec:
       image: areed145/kk6gpv-bus-wx:latest
       imagePullPolicy: Always
       ports:
-        - containerPort: 4000
+        - containerPort: 8080
       livenessProbe:
         tcpSocket:
-          port: 4000
+          port: 8080
         initialDelaySeconds: 60
         periodSeconds: 10
         failureThreshold: 6
