@@ -4,8 +4,7 @@ import json
 import asyncio
 import websockets
 import numpy as np
-
-# import time
+import time
 import sys
 
 # import logging
@@ -22,6 +21,7 @@ class BusWx:
         self.device_id = device_id
         self.rapid_id = rapid_id
         self.api_key = api_key
+        self.fail_count = 0
         self.run()
 
     async def wx_connect(self, ws):
@@ -184,6 +184,13 @@ class BusWx:
             await self.wx_connect(ws)
             await self.wx_on_message(ws)
 
+    def fail_check(self):
+        self.fail_count += 1
+        print("couldn't connect", self.fail_count, "time(s)")
+        if self.fail_count > 10:
+            print("exiting...")
+            sys.exit(1)
+
     def run(self):
         """Async loop running the function"""
         while True:
@@ -195,10 +202,10 @@ class BusWx:
                 asyncio.get_event_loop().run_until_complete(
                     self.weatherstation()
                 )
+                self.fail_count = 0
             except Exception:
-                print("could not connect...")
-                # time.sleep(5)
-                sys.exit(1)
+                time.sleep(5)
+                self.fail_check()
 
 
 if __name__ == "__main__":
