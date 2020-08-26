@@ -11,11 +11,15 @@ spec:
       imagePullPolicy: Always
       ports:
         - containerPort: 4000
+        - name: liveness
+          containerPort: 9090
+          protocol: TCP
       livenessProbe:
         tcpSocket:
-          port: 4000
+          port: liveness
         initialDelaySeconds: 15
-        periodSeconds: 20
+        periodSeconds: 60
+        failureThreshold: 10
       resources:
         requests:
           memory: "64Mi"
