@@ -13,12 +13,20 @@ spec:
       labels:
         name: kk6gpv-bus-wx
     spec:
+      restartPolicy: Never
       containers:
         - name: application
           image: areed145/kk6gpv-bus-wx:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 15
+            timeoutSeconds: 1
           resources:
             requests:
               memory: "64Mi"

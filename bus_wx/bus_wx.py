@@ -4,7 +4,14 @@ import json
 import asyncio
 import websockets
 import numpy as np
-import time
+
+# import time
+import sys
+
+# import logging
+# logger = logging.getLogger("websockets")
+# logger.setLevel(logging.INFO)
+# logger.addHandler(logging.StreamHandler())
 
 
 class BusWx:
@@ -15,11 +22,10 @@ class BusWx:
         self.device_id = device_id
         self.rapid_id = rapid_id
         self.api_key = api_key
+        self.run()
 
     async def wx_connect(self, ws):
-        """
-        Connects to weatherstation
-        """
+        """Connects to weatherstation"""
         await ws.send(
             '{"type":"listen_start", "device_id":'
             + self.device_id
@@ -43,9 +49,7 @@ class BusWx:
         )
 
     async def wx_on_message(self, ws):
-        """
-        Publishes each weatherstation observation to MQTT bus
-        """
+        """Publishes each weatherstation observation to MQTT bus"""
         while True:
             message = await ws.recv()
             message = json.loads(message)
@@ -174,27 +178,14 @@ class BusWx:
                     pass
 
     async def weatherstation(self):
-        """
-        Initial websocket connection to weatherstation
-        """
-        while True:
-            try:
-                uri = (
-                    "wss://ws.weatherflow.com/swd/data?"
-                    + "api_key="
-                    + self.api_key
-                )
-                async with websockets.connect(uri) as ws:
-                    await self.wx_connect(ws)
-                    await self.wx_on_message(ws)
-            except Exception:
-                print("disconnected...")
-                time.sleep(5)
+        """Initial websocket connection to weatherstation"""
+        uri = "wss://ws.weatherflow.com/swd/data?" + "api_key=" + self.api_key
+        async with websockets.connect(uri) as ws:
+            await self.wx_connect(ws)
+            await self.wx_on_message(ws)
 
     def run(self):
-        """
-        Async loop running the function
-        """
+        """Async loop running the function"""
         while True:
             try:
                 self.client = mqtt.Client(
@@ -205,8 +196,9 @@ class BusWx:
                     self.weatherstation()
                 )
             except Exception:
-                print("no connection...")
-                time.sleep(5)
+                print("could not connect...")
+                # time.sleep(5)
+                sys.exit(1)
 
 
 if __name__ == "__main__":
@@ -216,4 +208,3 @@ if __name__ == "__main__":
         rapid_id="54053",
         api_key="20c70eae-e62f-4d3b-b3a4-8586e90f3ac8",
     )
-    bus.run()
