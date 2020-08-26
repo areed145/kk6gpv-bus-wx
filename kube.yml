@@ -17,9 +17,9 @@ spec:
       livenessProbe:
         tcpSocket:
           port: liveness
-        initialDelaySeconds: 15
-        periodSeconds: 60
-        failureThreshold: 10
+        initialDelaySeconds: 60
+        periodSeconds: 10
+        failureThreshold: 6
       resources:
         requests:
           memory: "64Mi"
