@@ -20,6 +20,7 @@ class BusWx:
         self.rapid_id = rapid_id
         self.api_key = api_key
         self.fail_count = 0
+        self.fail_max = 10
         self.run()
 
     async def wx_connect(self, ws):
@@ -187,7 +188,7 @@ class BusWx:
         logging.warning(
             "couldn't connect {0} time(s)".format(str(self.fail_count))
         )
-        if self.fail_count > 10:
+        if self.fail_count > self.fail_max - 1:
             logging.error("exiting...")
             sys.exit(1)
 
