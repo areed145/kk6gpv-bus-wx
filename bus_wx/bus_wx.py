@@ -184,7 +184,9 @@ class BusWx:
 
     def fail_check(self):
         self.fail_count += 1
-        logging.warning("couldn't connect", str(self.fail_count), "time(s)")
+        logging.warning(
+            "couldn't connect {0} time(s)".format(str(self.fail_count))
+        )
         if self.fail_count > 10:
             logging.error("exiting...")
             sys.exit(1)
