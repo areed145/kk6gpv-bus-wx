@@ -6,6 +6,8 @@ WORKDIR /bus_wx
 
 COPY . /bus_wx
 
+EXPOSE 4000
+
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
