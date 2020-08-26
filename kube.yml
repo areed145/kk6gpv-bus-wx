@@ -11,12 +11,13 @@ spec:
       imagePullPolicy: Always
       ports:
         - containerPort: 4000
-        - name: liveness
-          containerPort: 9090
+        - name: liveness-port
+          containerPort: 80
+          hostPort: 8080
           protocol: TCP
       livenessProbe:
         tcpSocket:
-          port: liveness
+          port: 80
         initialDelaySeconds: 60
         periodSeconds: 10
         failureThreshold: 6
