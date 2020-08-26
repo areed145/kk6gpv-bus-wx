@@ -7,6 +7,7 @@ import numpy as np
 import time
 import sys
 import logging
+import os
 
 logging.basicConfig(level=logging.INFO)
 
@@ -215,7 +216,7 @@ class BusWx:
         self.run()
 
     def fail_init(self):
-        """"""
+        """Initialize check for failure"""
         self.fail_count = 0
         with open("/healthy", "w") as fp:
             fp.write("healthy")

@@ -10,14 +10,14 @@ spec:
       image: areed145/kk6gpv-bus-wx:latest
       imagePullPolicy: Always
       ports:
-        - containerPort: 5000
+        - containerPort: 4000
       livenessProbe:
         exec:
           command:
             - cat
             - /healthy
-        initialDelaySeconds: 10
-        periodSeconds: 5
+        initialDelaySeconds: 30
+        periodSeconds: 20
       resources:
         requests:
           memory: "64Mi"
