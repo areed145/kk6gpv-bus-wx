@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: Pod
 metadata:
   name: kk6gpv-bus-wx
 spec:
