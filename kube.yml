@@ -12,12 +12,10 @@ spec:
       ports:
         - containerPort: 4000
       livenessProbe:
-        httpGet:
-          path: /ping
-          port: 80
-          scheme: HTTP
+        tcpSocket:
+          port: 8080
         initialDelaySeconds: 15
-        timeoutSeconds: 1
+        periodSeconds: 20
       resources:
         requests:
           memory: "64Mi"
