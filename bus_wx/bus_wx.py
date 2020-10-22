@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 import asyncio
 from websockets import connect
@@ -74,7 +74,7 @@ class WxWebSocket:
                 if message["type"] == "evt_precip":
                     msg = {}
                     msg["type"] = "wx_precip"
-                    msg["timestamp"] = datetime.utcnow().isoformat()
+                    msg["timestamp"] = datetime.now(timezone.utc).isoformat()
                     try:
                         self.bus_client.publish(
                             "kk6gpv_bus/wx/precip",
@@ -88,7 +88,7 @@ class WxWebSocket:
                 if message["type"] == "evt_strike":
                     msg = {}
                     msg["type"] = "wx_strike"
-                    msg["timestamp"] = datetime.utcnow().isoformat()
+                    msg["timestamp"] = datetime.now(timezone.utc).isoformat()
                     msg["distance"] = message["evt"][1]
                     msg["energy"] = message["evt"][2]
                     try:
@@ -118,7 +118,7 @@ class WxWebSocket:
                 if message["type"] == "obs_air":
                     msg = {}
                     msg["type"] = "wx_air"
-                    msg["timestamp"] = datetime.utcnow().isoformat()
+                    msg["timestamp"] = datetime.now(timezone.utc).isoformat()
                     msg["temp_f"] = str(
                         np.round((message["obs"][0][2] * (9 / 5) + 32), 2)
                     )
@@ -165,7 +165,7 @@ class WxWebSocket:
                 if message["type"] == "obs_sky":
                     msg = {}
                     msg["type"] = "wx_sky"
-                    msg["timestamp"] = datetime.utcnow().isoformat()
+                    msg["timestamp"] = datetime.now(timezone.utc).isoformat()
                     msg["wind_degrees"] = str(message["obs"][0][7])
                     msg["wind_mph"] = str(
                         np.round(message["obs"][0][5] * 1.94384, 2)
@@ -190,7 +190,7 @@ class WxWebSocket:
                 if message["type"] == "rapid_wind":
                     msg = {}
                     msg["type"] = "wx_wind"
-                    msg["timestamp"] = datetime.utcnow().isoformat()
+                    msg["timestamp"] = datetime.now(timezone.utc).isoformat()
                     msg["wind_degrees"] = str(message["ob"][2])
                     msg["wind_mph"] = str(
                         np.round(message["ob"][1] * 1.94384, 2)
