@@ -17,9 +17,8 @@ class WxWebSocket:
 
     async def __aenter__(self):
         """Initial websocket connection to weatherstation"""
-        self.station_id = "2098388936"
-        self.device_id = "54051"
-        self.rapid_id = "54053"
+        self.station_id = "49977"
+        self.rapid_id = "143456"
         self.api_key = "32f5918d-0c17-4b52-ac4e-6a6cf5dd3be0"  # "20c70eae-e62f-4d3b-b3a4-8586e90f3ac8"
         self.uri = (
             "wss://ws.weatherflow.com/swd/data?" + "api_key=" + self.api_key
@@ -40,13 +39,6 @@ class WxWebSocket:
 
     async def wx_connect(self):
         """Connects to weatherstation"""
-        await self.websocket.send(
-            '{"type":"listen_start", "device_id":'
-            + self.device_id
-            + ', "id":"'
-            + self.station_id
-            + '"}'
-        )
         await self.websocket.send(
             '{"type":"listen_start", "device_id":'
             + self.rapid_id
