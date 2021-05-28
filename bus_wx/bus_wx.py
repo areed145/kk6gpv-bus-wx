@@ -210,7 +210,7 @@ class BusWx:
     def fail_init(self):
         """Initialize check for failure"""
         self.fail_count = 0
-        with open("/healthy", "w") as fp:
+        with open("healthy", "w") as fp:
             fp.write("healthy")
             pass
 
@@ -222,7 +222,7 @@ class BusWx:
         )
         if self.fail_count > self.fail_max - 1:
             logging.error("exiting...")
-            os.remove("/healthy")
+            os.remove("healthy")
             sys.exit(1)
 
     def run(self):
