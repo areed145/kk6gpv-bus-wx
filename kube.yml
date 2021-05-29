@@ -15,7 +15,7 @@ spec:
         exec:
           command:
             - cat
-            - /healthy
+            - healthy
         initialDelaySeconds: 30
         periodSeconds: 20
       resources:

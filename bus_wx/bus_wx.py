@@ -7,6 +7,7 @@ import numpy as np
 import time
 import logging
 import os
+import sys
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("kk6gpv-bus-wx")
