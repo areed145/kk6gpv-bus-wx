@@ -9,6 +9,7 @@ import logging
 import os
 
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("kk6gpv-bus-wx")
 
 
 class WxWebSocket:
@@ -17,10 +18,11 @@ class WxWebSocket:
     async def __aenter__(self):
         """Initial websocket connection to weatherstation"""
         self.station_id = "49977"
-        self.rapid_id = "143456"
+        self.device_id = "143457"
+        # self.rapid_id = "143456"
         self.token = "2f933732-46c2-45d1-8704-fbff9b350bf8"
         self.uri = "wss://ws.weatherflow.com/swd/data?" + "token=" + self.token
-        print(self.uri)
+        logger.info(self.uri)
 
         self.bus_client = mqtt.Client(
             client_id="kk6gpv-bus-wx", clean_session=False
@@ -39,20 +41,19 @@ class WxWebSocket:
         """Connects to weatherstation"""
         await self.websocket.send(
             '{"type":"listen_start", "device_id":'
-            + self.rapid_id
+            + self.device_id
             + ', "id":"'
             + self.station_id
             + '"}'
         )
         await self.websocket.send(
             '{"type":"listen_rapid_start", "device_id":'
-            + self.rapid_id
+            + self.device_id
             + ', "id":"'
             + self.station_id
             + '"}'
         )
-        print("connecting...")
-        logging.info("connecting...")
+        logger.info("connecting...")
 
     async def wx_on_message(self):
         """Publishes each weatherstation observation to MQTT bus"""
@@ -61,7 +62,7 @@ class WxWebSocket:
             message = json.loads(message)
             if "type" not in message:
                 print(message)
-                logging.error(message)
+                logger.error(message)
             else:
                 if message["type"] == "evt_precip":
                     msg = {}
@@ -73,11 +74,9 @@ class WxWebSocket:
                             json.dumps(msg),
                             retain=True,
                         )
-                        print(msg)
-                        logging.info(msg)
+                        logger.info(msg)
                     except Exception:
-                        print(msg)
-                        logging.warning(msg)
+                        logger.warning(msg)
 
                 if message["type"] == "evt_strike":
                     msg = {}
@@ -91,11 +90,9 @@ class WxWebSocket:
                             json.dumps(msg),
                             retain=True,
                         )
-                        print(msg)
-                        logging.info(msg)
+                        logger.info(msg)
                     except Exception:
-                        print(msg)
-                        logging.warning(msg)
+                        logger.warning(msg)
 
                 if message["type"] == "device_status":
                     msg = {}
@@ -107,11 +104,9 @@ class WxWebSocket:
                             json.dumps(msg),
                             retain=True,
                         )
-                        print(msg)
-                        logging.info(msg)
+                        logger.info(msg)
                     except Exception:
-                        print(msg)
-                        logging.warning(msg)
+                        logger.warning(msg)
 
                 if message["type"] == "obs_air":
                     msg = {}
@@ -156,10 +151,8 @@ class WxWebSocket:
                         self.bus_client.publish(
                             "kk6gpv_bus/wx/air", json.dumps(msg), retain=True
                         )
-                        print(msg)
                         logging.info(msg)
                     except Exception:
-                        print(msg)
                         logging.warning(msg)
 
                 if message["type"] == "obs_sky":
@@ -183,11 +176,9 @@ class WxWebSocket:
                         self.bus_client.publish(
                             "kk6gpv_bus/wx/sky", json.dumps(msg), retain=True
                         )
-                        print(msg)
-                        logging.info(msg)
+                        logger.info(msg)
                     except Exception:
-                        print(msg)
-                        logging.warning(msg)
+                        logger.warning(msg)
 
                 if message["type"] == "rapid_wind":
                     msg = {}
@@ -201,11 +192,9 @@ class WxWebSocket:
                         self.bus_client.publish(
                             "kk6gpv_bus/wx/wind", json.dumps(msg), retain=True
                         )
-                        print(msg)
-                        logging.info(msg)
+                        logger.info(msg)
                     except Exception:
-                        print(msg)
-                        logging.warning(msg)
+                        logger.warning(msg)
 
 
 class BusWx:
@@ -229,15 +218,13 @@ class BusWx:
     def fail_check(self):
         """Check for failure count"""
         self.fail_count += 1
-        print("couldn't connect {0} time(s)".format(str(self.fail_count)))
-        logging.warning(
+        logger.warning(
             "couldn't connect {0} time(s)".format(str(self.fail_count))
         )
         if self.fail_count > self.fail_max - 1:
-            print("exiting...")
-            logging.error("exiting...")
+            logger.error("exiting...")
             os.remove("healthy")
-            # sys.exit(1)
+            sys.exit(1)
 
     def run(self):
         """Run the bus"""
@@ -246,7 +233,7 @@ class BusWx:
                 self.loop.run_until_complete(self.__async__run())
                 self.fail_init()
             except Exception as e:
-                print(str(e))
+                logger.error(str(e))
                 time.sleep(10)
                 self.fail_check()
 
