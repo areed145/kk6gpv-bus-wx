@@ -5,7 +5,6 @@ import asyncio
 from websockets import connect
 import numpy as np
 import time
-import sys
 import logging
 import os
 
@@ -19,10 +18,9 @@ class WxWebSocket:
         """Initial websocket connection to weatherstation"""
         self.station_id = "49977"
         self.rapid_id = "143456"
-        self.api_key = "32f5918d-0c17-4b52-ac4e-6a6cf5dd3be0"  # "20c70eae-e62f-4d3b-b3a4-8586e90f3ac8"
-        self.uri = (
-            "wss://ws.weatherflow.com/swd/data?" + "api_key=" + self.api_key
-        )
+        self.token = "2f933732-46c2-45d1-8704-fbff9b350bf8"
+        self.uri = "wss://ws.weatherflow.com/swd/data?" + "token=" + self.token
+        print(self.uri)
 
         self.bus_client = mqtt.Client(
             client_id="kk6gpv-bus-wx", clean_session=False
@@ -53,6 +51,7 @@ class WxWebSocket:
             + self.station_id
             + '"}'
         )
+        print("connecting...")
         logging.info("connecting...")
 
     async def wx_on_message(self):
@@ -61,6 +60,7 @@ class WxWebSocket:
             message = await self.websocket.recv()
             message = json.loads(message)
             if "type" not in message:
+                print(message)
                 logging.error(message)
             else:
                 if message["type"] == "evt_precip":
@@ -73,8 +73,10 @@ class WxWebSocket:
                             json.dumps(msg),
                             retain=True,
                         )
+                        print(msg)
                         logging.info(msg)
                     except Exception:
+                        print(msg)
                         logging.warning(msg)
 
                 if message["type"] == "evt_strike":
@@ -89,8 +91,10 @@ class WxWebSocket:
                             json.dumps(msg),
                             retain=True,
                         )
+                        print(msg)
                         logging.info(msg)
                     except Exception:
+                        print(msg)
                         logging.warning(msg)
 
                 if message["type"] == "device_status":
@@ -103,8 +107,10 @@ class WxWebSocket:
                             json.dumps(msg),
                             retain=True,
                         )
+                        print(msg)
                         logging.info(msg)
                     except Exception:
+                        print(msg)
                         logging.warning(msg)
 
                 if message["type"] == "obs_air":
@@ -150,8 +156,10 @@ class WxWebSocket:
                         self.bus_client.publish(
                             "kk6gpv_bus/wx/air", json.dumps(msg), retain=True
                         )
+                        print(msg)
                         logging.info(msg)
                     except Exception:
+                        print(msg)
                         logging.warning(msg)
 
                 if message["type"] == "obs_sky":
@@ -175,8 +183,10 @@ class WxWebSocket:
                         self.bus_client.publish(
                             "kk6gpv_bus/wx/sky", json.dumps(msg), retain=True
                         )
+                        print(msg)
                         logging.info(msg)
                     except Exception:
+                        print(msg)
                         logging.warning(msg)
 
                 if message["type"] == "rapid_wind":
@@ -191,8 +201,10 @@ class WxWebSocket:
                         self.bus_client.publish(
                             "kk6gpv_bus/wx/wind", json.dumps(msg), retain=True
                         )
+                        print(msg)
                         logging.info(msg)
                     except Exception:
+                        print(msg)
                         logging.warning(msg)
 
 
@@ -217,13 +229,15 @@ class BusWx:
     def fail_check(self):
         """Check for failure count"""
         self.fail_count += 1
+        print("couldn't connect {0} time(s)".format(str(self.fail_count)))
         logging.warning(
             "couldn't connect {0} time(s)".format(str(self.fail_count))
         )
         if self.fail_count > self.fail_max - 1:
+            print("exiting...")
             logging.error("exiting...")
             os.remove("healthy")
-            sys.exit(1)
+            # sys.exit(1)
 
     def run(self):
         """Run the bus"""
@@ -231,8 +245,9 @@ class BusWx:
             try:
                 self.loop.run_until_complete(self.__async__run())
                 self.fail_init()
-            except Exception:
-                time.sleep(2)
+            except Exception as e:
+                print(str(e))
+                time.sleep(10)
                 self.fail_check()
 
     async def __async__run(self):
