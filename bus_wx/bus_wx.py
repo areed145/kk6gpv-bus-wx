@@ -196,7 +196,7 @@ class WxWebSocket:
                         logger.info(msg)
                     except Exception:
                         logger.warning(msg)
-                        
+
                 else:
                     logger.error(str(message))
 
