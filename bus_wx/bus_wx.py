@@ -237,9 +237,12 @@ class WxWebSocket:
                     msg["wind_gust_mph"] = str(
                         np.round(message["obs"][0][3] * 1.94384, 2)
                     )
-                    msg["precip_today_in"] = str(
-                        np.round(message["obs"][0][19] * 0.0393701, 3)
-                    )
+                    if message["obs"][0][19] is not None:
+                        msg["precip_today_in"] = str(
+                            np.round(message["obs"][0][19] * 0.0393701, 3)
+                        )
+                    else:
+                        msg["precip_today_in"] = 0
                     msg["solar_radiation"] = str(message["obs"][0][11])
                     msg["uv"] = str(message["obs"][0][10])
                     try:
