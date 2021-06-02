@@ -79,7 +79,7 @@ class WxWebSocket:
                     except Exception:
                         logger.warning(msg)
 
-                if message["type"] == "evt_strike":
+                elif message["type"] == "evt_strike":
                     msg = {}
                     msg["type"] = "wx_strike"
                     msg["timestamp"] = datetime.now(timezone.utc).isoformat()
@@ -95,7 +95,7 @@ class WxWebSocket:
                     except Exception:
                         logger.warning(msg)
 
-                if message["type"] == "device_status":
+                elif message["type"] == "device_status":
                     msg = {}
                     msg["type"] = "wx_status"
                     msg["voltage"] = message["voltage"]
@@ -109,7 +109,7 @@ class WxWebSocket:
                     except Exception:
                         logger.warning(msg)
 
-                if message["type"] == "obs_air":
+                elif message["type"] == "obs_air":
                     msg = {}
                     msg["type"] = "wx_air"
                     msg["timestamp"] = datetime.now(timezone.utc).isoformat()
@@ -156,7 +156,7 @@ class WxWebSocket:
                     except Exception:
                         logging.warning(msg)
 
-                if message["type"] == "obs_sky":
+                elif message["type"] == "obs_sky":
                     msg = {}
                     msg["type"] = "wx_sky"
                     msg["timestamp"] = datetime.now(timezone.utc).isoformat()
@@ -180,7 +180,7 @@ class WxWebSocket:
                     except Exception:
                         logger.warning(msg)
 
-                if message["type"] == "obs_st":
+                elif message["type"] == "obs_st":
                     msg = {}
                     msg["type"] = "wx_air"
                     msg["timestamp"] = datetime.now(timezone.utc).isoformat()
@@ -253,7 +253,7 @@ class WxWebSocket:
                     except Exception:
                         logger.warning(msg)
 
-                if message["type"] == "rapid_wind":
+                elif message["type"] == "rapid_wind":
                     msg = {}
                     msg["type"] = "wx_wind"
                     msg["timestamp"] = datetime.now(timezone.utc).isoformat()
