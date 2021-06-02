@@ -179,7 +179,7 @@ class WxWebSocket:
                         logger.info(msg)
                     except Exception:
                         logger.warning(msg)
-                        
+
                 if message["type"] == "obs_st":
                     msg = {}
                     msg["type"] = "wx_air"
@@ -226,7 +226,7 @@ class WxWebSocket:
                         logging.info(msg)
                     except Exception:
                         logging.warning(msg)
-                        
+
                     msg = {}
                     msg["type"] = "wx_sky"
                     msg["timestamp"] = datetime.now(timezone.utc).isoformat()
