@@ -100,7 +100,7 @@ class WxWebSocket:
                     except Exception:
                         logger.warning(msg)
 
-                if message["type"] == "evt_strike":
+                elif message["type"] == "evt_strike":
                     msg = {}
                     msg["type"] = "wx_strike"
                     msg["timestamp"] = datetime.now(timezone.utc).isoformat()
@@ -116,7 +116,7 @@ class WxWebSocket:
                     except Exception:
                         logger.warning(msg)
 
-                if message["type"] == "device_status":
+                elif message["type"] == "device_status":
                     msg = {}
                     msg["type"] = "wx_status"
                     msg["voltage"] = message["voltage"]
@@ -130,7 +130,7 @@ class WxWebSocket:
                     except Exception:
                         logger.warning(msg)
 
-                if message["type"] == "obs_air":
+                elif message["type"] == "obs_air":
                     msg = {}
                     msg["type"] = "wx_air"
                     msg["timestamp"] = datetime.now(timezone.utc).isoformat()
@@ -177,7 +177,7 @@ class WxWebSocket:
                     except Exception:
                         logging.warning(msg)
 
-                if message["type"] == "obs_sky":
+                elif message["type"] == "obs_sky":
                     msg = {}
                     msg["type"] = "wx_sky"
                     msg["timestamp"] = datetime.now(timezone.utc).isoformat()
@@ -193,7 +193,6 @@ class WxWebSocket:
                     )
                     msg["solar_radiation"] = str(message["obs"][0][10])
                     msg["uv"] = str(message["obs"][0][2])
-                    msg["wind_degrees"] = str(message["obs"][0][7])
                     try:
                         self.bus_client.publish(
                             "kk6gpv_bus/wx/sky", json.dumps(msg), retain=True
@@ -202,7 +201,80 @@ class WxWebSocket:
                     except Exception:
                         logger.warning(msg)
 
-                if message["type"] == "rapid_wind":
+                elif message["type"] == "obs_st":
+                    msg = {}
+                    msg["type"] = "wx_air"
+                    msg["timestamp"] = datetime.now(timezone.utc).isoformat()
+                    msg["temp_f"] = str(
+                        np.round((message["obs"][0][7] * (9 / 5) + 32), 2)
+                    )
+                    msg["dewpoint_f"] = str(
+                        np.round(
+                            (
+                                message["obs"][0][7]
+                                - (100 - message["obs"][0][8]) / 5
+                            )
+                            * (9 / 5)
+                            + 32,
+                            2,
+                        )
+                    )
+                    msg["relative_humidity"] = str(
+                        np.round(message["obs"][0][8], 2)
+                    )
+                    msg["pressure_in"] = str(
+                        np.round(message["obs"][0][6] * 0.029693, 3)
+                    )
+                    msg["pressure_trend"] = str(
+                        message["summary"]["pressure_trend"]
+                    )
+                    msg["strike_count_3h"] = str(
+                        message["summary"]["strike_count_3h"]
+                    )
+                    msg["strike_last_dist"] = str(
+                        message["summary"]["strike_last_dist"]
+                    )
+                    msg["strike_last_epoch"] = str(
+                        message["summary"]["strike_last_epoch"]
+                    )
+                    msg["feels_like"] = str(message["summary"]["feels_like"])
+                    msg["heat_index"] = str(message["summary"]["heat_index"])
+                    msg["wind_chill"] = str(message["summary"]["wind_chill"])
+                    try:
+                        self.bus_client.publish(
+                            "kk6gpv_bus/wx/air", json.dumps(msg), retain=True
+                        )
+                        logging.info(msg)
+                    except Exception:
+                        logging.warning(msg)
+
+                    msg = {}
+                    msg["type"] = "wx_sky"
+                    msg["timestamp"] = datetime.now(timezone.utc).isoformat()
+                    msg["wind_degrees"] = str(message["obs"][0][4])
+                    msg["wind_mph"] = str(
+                        np.round(message["obs"][0][2] * 1.94384, 2)
+                    )
+                    msg["wind_gust_mph"] = str(
+                        np.round(message["obs"][0][3] * 1.94384, 2)
+                    )
+                    if message["obs"][0][19] is not None:
+                        msg["precip_today_in"] = str(
+                            np.round(message["obs"][0][19] * 0.0393701, 3)
+                        )
+                    else:
+                        msg["precip_today_in"] = 0
+                    msg["solar_radiation"] = str(message["obs"][0][11])
+                    msg["uv"] = str(message["obs"][0][10])
+                    try:
+                        self.bus_client.publish(
+                            "kk6gpv_bus/wx/sky", json.dumps(msg), retain=True
+                        )
+                        logger.info(msg)
+                    except Exception:
+                        logger.warning(msg)
+
+                elif message["type"] == "rapid_wind":
                     msg = {}
                     msg["type"] = "wx_wind"
                     msg["timestamp"] = datetime.now(timezone.utc).isoformat()
@@ -217,6 +289,9 @@ class WxWebSocket:
                         logger.info(msg)
                     except Exception:
                         logger.warning(msg)
+
+                else:
+                    logger.error(str(message))
 
 
 class BusWx:
