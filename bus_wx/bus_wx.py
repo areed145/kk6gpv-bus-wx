@@ -157,15 +157,24 @@ class WxWebSocket:
                     msg["pressure_trend"] = str(
                         message["summary"]["pressure_trend"]
                     )
-                    msg["strike_count_3h"] = str(
-                        message["summary"]["strike_count_3h"]
-                    )
-                    msg["strike_last_dist"] = str(
-                        message["summary"]["strike_last_dist"]
-                    )
-                    msg["strike_last_epoch"] = str(
-                        message["summary"]["strike_last_epoch"]
-                    )
+                    try:
+                        msg["strike_count_3h"] = str(
+                            message["summary"]["strike_count_3h"]
+                        )
+                    except Exception:
+                        pass
+                    try:
+                        msg["strike_last_dist"] = str(
+                            message["summary"]["strike_last_dist"]
+                        )
+                    except Exception:
+                        pass
+                    try:
+                        msg["strike_last_epoch"] = str(
+                            message["summary"]["strike_last_epoch"]
+                        )
+                    except Exception:
+                        pass
                     msg["feels_like"] = str(message["summary"]["feels_like"])
                     msg["heat_index"] = str(message["summary"]["heat_index"])
                     msg["wind_chill"] = str(message["summary"]["wind_chill"])
@@ -231,12 +240,18 @@ class WxWebSocket:
                     msg["strike_count_3h"] = str(
                         message["summary"]["strike_count_3h"]
                     )
-                    msg["strike_last_dist"] = str(
-                        message["summary"]["strike_last_dist"]
-                    )
-                    msg["strike_last_epoch"] = str(
-                        message["summary"]["strike_last_epoch"]
-                    )
+                    try:
+                        msg["strike_last_dist"] = str(
+                            message["summary"]["strike_last_dist"]
+                        )
+                    except Exception:
+                        pass
+                    try:
+                        msg["strike_last_epoch"] = str(
+                            message["summary"]["strike_last_epoch"]
+                        )
+                    except Exception:
+                        pass
                     msg["feels_like"] = str(message["summary"]["feels_like"])
                     msg["heat_index"] = str(message["summary"]["heat_index"])
                     msg["wind_chill"] = str(message["summary"]["wind_chill"])
