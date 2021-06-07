@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 from datetime import datetime, timezone
+import urllib.request
 import json
 import asyncio
 from websockets import connect
@@ -16,21 +17,41 @@ logger = logging.getLogger("kk6gpv-bus-wx")
 class WxWebSocket:
     """Class for the weather station websocket"""
 
+    def __init__(self):
+        self.token = "2f933732-46c2-45d1-8704-fbff9b350bf8"
+        self.devices_uri = (
+            "https://swd.weatherflow.com/swd/rest/stations?token=" + self.token
+        )
+        self.ws_uri = "wss://ws.weatherflow.com/swd/data?token=" + self.token
+        self.get_devices()
+
+    def get_devices(self):
+        hdr = {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) \
+            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 \
+            Safari/537.36"
+        }
+        req = urllib.request.Request(self.devices_uri, headers=hdr)
+        msg = urllib.request.urlopen(req).read()
+        msg = json.loads(msg)
+        devices = msg["stations"][0]["devices"]
+        for device in devices:
+            if device["device_type"] == "HB":
+                self.station_id = str(device["device_id"])
+            if device["device_type"] == "ST":
+                self.device_id = str(device["device_id"])
+        logger.info("websocket: {}".format(self.ws_uri))
+        logger.info("station id: {}".format(self.station_id))
+        logger.info("device id: {}".format(self.device_id))
+
     async def __aenter__(self):
         """Initial websocket connection to weatherstation"""
-        self.station_id = "49977"
-        self.device_id = "143457"
-        # self.rapid_id = "143456"
-        self.token = "2f933732-46c2-45d1-8704-fbff9b350bf8"
-        self.uri = "wss://ws.weatherflow.com/swd/data?" + "token=" + self.token
-        logger.info(self.uri)
-
         self.bus_client = mqtt.Client(
             client_id="kk6gpv-bus-wx", clean_session=False
         )
         self.bus_client.connect("broker.mqttdashboard.com", 1883)
 
-        self.con = connect(self.uri)
+        self.con = connect(self.ws_uri)
         self.websocket = await self.con.__aenter__()
         return self
 
