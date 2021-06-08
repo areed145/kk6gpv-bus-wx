@@ -45,7 +45,7 @@ class WxWebSocket:
         self.logger.info("device id: {}".format(self.device_id))
 
     async def __aenter__(self):
-        """Initial websocket connection to weatherstation""" 
+        """Initial websocket connection to weatherstation"""
         self.con = connect(self.ws_uri)
         self.websocket = await self.con.__aenter__()
         return self
