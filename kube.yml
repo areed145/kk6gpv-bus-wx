@@ -13,7 +13,7 @@ spec:
       labels:
         name: kk6gpv-bus-wx
     spec:
-      restartPolicy: OnFailure
+      restartPolicy: Always
       containers:
         - name: application
           image: areed145/kk6gpv-bus-wx:latest
