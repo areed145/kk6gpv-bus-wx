@@ -258,9 +258,9 @@ class WxWebSocket:
                         self.bus_client.publish(
                             "kk6gpv_bus/wx/air", json.dumps(msg), retain=True
                         )
-                        logging.info(msg)
+                        self.logger.info(msg)
                     except Exception:
-                        logging.warning(msg)
+                        self.logger.warning(msg)
 
                     msg = {}
                     msg["type"] = "wx_sky"
