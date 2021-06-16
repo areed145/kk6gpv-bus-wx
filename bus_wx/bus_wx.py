@@ -103,7 +103,8 @@ class WxWebSocket:
                 elif message["type"] == "evt_strike":
                     msg = {}
                     msg["type"] = "wx_strike"
-                    msg["timestamp"] = datetime.now(timezone.utc).isoformat()
+                    dt_now = datetime.now(timezone.utc)
+                    msg["timestamp"] = dt_now.isoformat()
                     msg["distance"] = message["evt"][1]
                     msg["energy"] = message["evt"][2]
                     try:
@@ -119,6 +120,7 @@ class WxWebSocket:
                         client = MongoClient(os.environ["MONGODB_CLIENT"])
                         db = client.wx
                         db_lightning = db.lightning
+                        msg["timestamp"] = dt_now
                         db_lightning.insert_one(msg)
                     except Exception:
                         self.logger.warning(msg)
