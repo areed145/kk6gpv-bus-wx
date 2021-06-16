@@ -8,6 +8,9 @@
         "type": "python",
         "request": "launch",
         "program": "/Users/areed145/Library/Mobile Documents/com~apple~CloudDocs/GitHub/kk6gpv-bus-wx/bus_wx/bus_wx.py",
-        "console": "integratedTerminal"
+        "console": "integratedTerminal",
+        "env": {
+            "MONGODB_CLIENT": "mongodb+srv://kk6gpv:kk6gpv@cluster0.kglzh.azure.mongodb.net/test?retryWrites=true&w=majority"
+        }
     }]
 }

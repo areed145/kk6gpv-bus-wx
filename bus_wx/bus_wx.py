@@ -9,6 +9,7 @@ import time
 import logging
 import os
 import sys
+from pymongo import MongoClient
 
 logging.basicConfig(level=logging.INFO)
 
@@ -112,6 +113,13 @@ class WxWebSocket:
                             retain=True,
                         )
                         self.logger.info(msg)
+                    except Exception:
+                        self.logger.warning(msg)
+                    try:
+                        client = MongoClient(os.environ["MONGODB_CLIENT"])
+                        db = client.wx
+                        db_lightning = db.lightning
+                        db_lightning.insert_one(msg)
                     except Exception:
                         self.logger.warning(msg)
 
