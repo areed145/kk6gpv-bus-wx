@@ -47,6 +47,11 @@ class WxWebSocket:
 
     async def __aenter__(self):
         """Initial websocket connection to weatherstation"""
+        self.bus_client = mqtt.Client(
+            client_id="kk6gpv-bus-wx", clean_session=False
+        )
+        self.bus_client.connect("broker.mqttdashboard.com", 1883)
+
         self.con = connect(self.ws_uri)
         self.websocket = await self.con.__aenter__()
         return self
@@ -57,10 +62,6 @@ class WxWebSocket:
 
     async def wx_connect(self):
         """Connects to weatherstation"""
-        self.bus_client = mqtt.Client(
-            client_id="kk6gpv-bus-wx", clean_session=False
-        )
-        self.bus_client.connect("broker.mqttdashboard.com", 1883)
         await self.websocket.send(
             '{"type":"listen_start", "device_id":'
             + self.device_id
